@@ -27,7 +27,10 @@ case $cmd[1] in
       return
       ;;
   *)
-      if [[ $#cmd -eq 2 && ! ("$cmd[2]" =~ "-.*") ]]; then
+      if [[ $#cmd -gt 1 && "$cmd[1]" =~ ".*=.*" ]]; then
+        shift cmd
+      fi
+      if [[ $#cmd -gt 1 && ! ("$cmd[2]" =~ "-.*") ]]; then
         echo -n "k$cmd[1] $cmd[2]\\"
       else
         echo -n "k$cmd[1]\\"

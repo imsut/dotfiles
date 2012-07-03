@@ -1,3 +1,4 @@
 --pager=less -r -E
+--type-set=thrift=.thrift
 --ignore-dir=.pants.d
 --ignore-dir=cabal-dev
