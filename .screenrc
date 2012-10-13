@@ -10,4 +10,5 @@ bind -c REGION o focus
 bind -c REGION \^ resize
 bind x command -c REGION
 shell -/bin/zsh
+bind b eval "writebuf" "exec sh -c 'pbcopy < /tmp/screen-exchange'"
 bell "Bell in window"
