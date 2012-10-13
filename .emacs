@@ -9,13 +9,18 @@
 (setq load-path (cons "~/.emacs-lisp" load-path))
 (setq load-path (cons "~/.emacs-lisp/mew" load-path))
 (setq load-path (cons "~/local/share/emacs/site-lisp" load-path))
+(setq load-path (cons "~/cabal-dev/share" load-path))
 (setq load-path (cons "/usr/share/emacs/site-lisp/global" load-path))
 (setq load-path (cons "/usr/local/scala/misc/scala-tool-support/emacs" load-path))
+(add-to-list 'load-path (expand-file-name "~/personal/ethan-wspace/lisp"))
+(add-to-list 'load-path (expand-file-name "~/local/git-emacs"))
 
 ;;
 ;; exec-path
 ;;================================================================
-(setq exec-path (cons "/opt/local/bin" exec-path))
+(add-to-list 'exec-path (expand-file-name "~/cabal-dev/bin"))
+(add-to-list 'exec-path "/opt/local/bin")
+
 ;;
 ;; font
 ;;================================================================
@@ -89,6 +94,11 @@
       ))
 
 ;;
+;; git-emacs
+;;================================================================
+(require 'git-emacs)
+
+;;
 ;; gdb
 ;;================================================================
 (if (eq system-type 'darwin)
@@ -159,6 +169,9 @@
       (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
       )
   )
+(autoload 'ghc-init "ghc" nil t)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
+(setq ghc-ghc-options '("-i~/cabal-dev"))
 
 ;;
 ;; OCaml development environment
@@ -185,6 +198,13 @@
 	    (setq tab-width 2)
 	    (setq py-indent-offset 2)
 	    ))
+
+;;
+;; ethan-wspace
+;;================================================================
+(require 'ethan-wspace)
+(global-ethan-wspace-mode 1)
+
 
 ;;
 ;; default mode
