@@ -99,6 +99,12 @@
 (require 'git-emacs)
 
 ;;
+;; tramp
+;;================================================================
+(require 'tramp)
+(setq tramp-default-method "ssh")
+
+;;
 ;; gdb
 ;;================================================================
 (if (eq system-type 'darwin)
@@ -274,6 +280,7 @@
 (setq cperl-indent-level 2)
 (setq cperl-continued-statement-offset 2)
 (setq cperl-comment-column 40)
+
 ;;
 ;; Key bindinsg
 ;;================================================================
@@ -370,5 +377,5 @@
 (ad-activate 'font-lock-mode)
 (add-hook 'find-file-hooks '(lambda ()
                               (if font-lock-mode
-				  nil
-				(font-lock-mode t))))
+                                  nil
+                                  (font-lock-mode t))))
