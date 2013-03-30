@@ -12,3 +12,4 @@ bind x command -c REGION
 shell -/bin/zsh
 bind b eval "writebuf" "exec sh -c 'pbcopy < /tmp/screen-exchange'"
 bell "Bell in window"
+setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
