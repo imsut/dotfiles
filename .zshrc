@@ -27,8 +27,10 @@ unsetopt auto_menu
 #
 # Aliases
 #
-alias la='ls -lAhG '
+alias la='/bin/ls -lAhG '
 alias glogg='git log --graph --date-order --pretty=format:"%h (%an) %s %cd" --branches'
+alias attach='$HOME/bin/grabssh.sh; screen -d -R'
+alias fixssh='source $HOME/bin/fixssh'
 
 #
 # Hooks
