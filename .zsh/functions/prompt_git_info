@@ -1,20 +1,11 @@
 if [ -n "$__CURRENT_GIT_BRANCH" ]; then
-    local s=""
-    s+="$__CURRENT_GIT_BRANCH "
-    case "$__CURRENT_GIT_BRANCH_STATUS" in
-        ahead)
-        s+="↑"
-        ;;
-        diverged)
-        s+="↕"
-        ;;
-        behind)
-        s+="↓"
-        ;;
-    esac
+    local branch="$__CURRENT_GIT_BRANCH"
+    local color
     if [ -n "$__CURRENT_GIT_BRANCH_IS_DIRTY" ]; then
-        s+="⚡"
+        color="%{${fg[white]}%}%{${bg[red]}%}"
+    else
+        color="%{${fg[red]}%}"
     fi
  
-    printf " %%B%s%s%%b" "%{${fg[red]}%}" $s
+    printf "@%s%s%%{${fg[default]}%%}%%{${bg[default]}%%}" $color $branch
 fi

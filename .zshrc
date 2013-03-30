@@ -53,8 +53,8 @@ chpwd_functions+='chpwd_show_files'
 #
 # PROMPT / RPROMPT
 #
-PROMPT=$'%{${fg[cyan]}%}%m%{${fg[black]}%}:%{${fg[blue]}%}%B%~%b%{${fg[default]}%}%% '
-RPROMPT=$'$(prompt_git_info)%{${fg[default]}%} [%*]'
+PROMPT=$'%{${fg[green]}%}%m%{${fg[default]}%}=%{${fg[blue]}%}%~%{${fg[default]}%}$(prompt_git_info); '
+#RPROMPT=$'$(prompt_git_info)%{${fg[default]}%} [%*]'
 
 
 if [ -f "$HOME/.zshrc.local" ]; then
