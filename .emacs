@@ -9,7 +9,7 @@
 (setq load-path (cons "~/.emacs-lisp" load-path))
 (setq load-path (cons "~/.emacs-lisp/mew" load-path))
 (setq load-path (cons "~/local/share/emacs/site-lisp" load-path))
-(setq load-path (cons "~/cabal-dev/share" load-path))
+;(setq load-path (cons "~/cabal-dev/share" load-path))
 (setq load-path (cons "/usr/share/emacs/site-lisp/global" load-path))
 (setq load-path (cons "/usr/local/scala/misc/scala-tool-support/emacs" load-path))
 (add-to-list 'load-path (expand-file-name "~/personal/ethan-wspace/lisp"))
@@ -18,7 +18,7 @@
 ;;
 ;; exec-path
 ;;================================================================
-(add-to-list 'exec-path (expand-file-name "~/cabal-dev/bin"))
+;(add-to-list 'exec-path (expand-file-name "~/cabal-dev/bin"))
 (add-to-list 'exec-path "/opt/local/bin")
 
 ;;
@@ -175,6 +175,8 @@
       (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
       )
   )
+(add-to-list 'load-path (expand-file-name "~/personal/ghc-mod/cabal-dev/share"))
+(add-to-list 'exec-path (expand-file-name "~/personal/ghc-mod/cabal-dev/bin"))
 (autoload 'ghc-init "ghc" nil t)
 (add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
 (setq ghc-ghc-options '("-i~/cabal-dev"))
@@ -208,8 +210,8 @@
 ;;
 ;; ethan-wspace
 ;;================================================================
-(require 'ethan-wspace)
-(global-ethan-wspace-mode 1)
+;(require 'ethan-wspace)
+;(global-ethan-wspace-mode 0)
 
 
 ;;
