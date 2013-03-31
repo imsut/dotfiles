@@ -53,7 +53,7 @@ chpwd_functions+='chpwd_show_files'
 #
 # PROMPT / RPROMPT
 #
-PROMPT=$'%{${fg[green]}%}%m%{${fg[default]}%}=%{${fg[blue]}%}%~%{${fg[default]}%}$(prompt_git_info); '
+PROMPT=$'%{${fg[green]}%}%m%{${fg[default]}%}=; cd %{${fg[blue]}%}%~%{${fg[default]}%};$(prompt_git_info) '
 #RPROMPT=$'$(prompt_git_info)%{${fg[default]}%} [%*]'
 
 

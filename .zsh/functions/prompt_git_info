@@ -7,5 +7,5 @@ if [ -n "$__CURRENT_GIT_BRANCH" ]; then
         color="%{${fg[red]}%}"
     fi
  
-    printf "@%s%s%%{${fg[default]}%%}%%{${bg[default]}%%}" $color $branch
+    printf " br=%s%s%%{${fg[default]}%%}%%{${bg[default]}%%};" $color $branch
 fi
