@@ -304,6 +304,7 @@
 (global-set-key "\C-x\C-n" 'move-to-next-window)
 (global-set-key "\C-x\C-p" 'move-to-prev-window)
 (global-set-key "\C-x\C-b" 'buffer-menu)
+(global-set-key "\C-x\C-g" 'goto-line)
 ;;
 ;; misc.
 ;;================================================================
@@ -330,6 +331,8 @@
 (setq indent-line-function 'insert-tab)
 (setq tab-stop-list
     '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
+(global-unset-key "\C-x\C-z")
+
 
 ;;
 ;; swap-screen
