@@ -16,6 +16,14 @@
 (add-to-list 'load-path (expand-file-name "~/local/git-emacs"))
 
 ;;
+;; Package.el
+;;================================================================
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+;;
 ;; exec-path
 ;;================================================================
 ;(add-to-list 'exec-path (expand-file-name "~/cabal-dev/bin"))
@@ -93,14 +101,8 @@
       (define-key ctl-x-map "C" 'see-you-again)
       ))
 
-;;
-;; git-emacs
-;;================================================================
 (require 'git-emacs)
 
-;;
-;; tramp
-;;================================================================
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
@@ -235,6 +237,14 @@
          (local-set-key "\M-s" 'gtags-find-symbol)
          (local-set-key "\C-t" 'gtags-pop-stack)
          ))
+
+;;
+;; Scala mode
+;;================================================================
+(unless (package-installed-p 'scala-mode2)
+  (package-refresh-contents) (package-install 'scala-mode2))
+(setq auto-mode-alist
+      (cons '("\\.scala$" . scala-mode) auto-mode-alist))
 
 ;;
 ;; svn mode
