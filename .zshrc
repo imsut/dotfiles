@@ -30,11 +30,14 @@ unsetopt auto_menu
 # Aliases
 #
 alias la='/bin/ls -lAhG '
+alias g='git '
 alias glogg='git log --graph --date-order --pretty=format:"%h (%an) %s %cd" --branches'
 alias br='git branch'
 alias st='git status'
 alias attach='$HOME/bin/grabssh.sh; screen -d -R'
 alias fixssh='source $HOME/bin/fixssh'
+alias pycheck='pants py src/python/twitter/checkstyle:check --diff=$(git merge-base HEAD master)'
+alias -g jp='| json_pp | less '
 
 #
 # Hooks
@@ -52,18 +55,13 @@ esac
 preexec_functions+='preexec_update_git_vars'
 precmd_functions+='precmd_update_git_vars'
 chpwd_functions+='chpwd_update_git_vars'
-#chpwd_functions+='chpwd_show_files'
+chpwd_functions+='chpwd_show_files'
 
 #
 # PROMPT / RPROMPT
 #
 PROMPT=$'%{${fg[green]}%}%m%{${fg[default]}%}=; cd %{${fg[blue]}%}%~%{${fg[default]}%};$(prompt_git_info) '
 #RPROMPT=$'$(prompt_git_info)%{${fg[default]}%} [%*]'
- 
-#
-# AutoJump
-#
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 
 if [ -f "$HOME/.zshrc.local" ]; then
   source "$HOME/.zshrc.local"

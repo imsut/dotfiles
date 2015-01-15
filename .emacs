@@ -6,14 +6,13 @@
 ;;
 ;; load-path
 ;;================================================================
-(setq load-path (cons "~/.emacs-lisp" load-path))
-(setq load-path (cons "~/.emacs-lisp/mew" load-path))
-(setq load-path (cons "~/local/share/emacs/site-lisp" load-path))
+(add-to-list 'load-path "~/.emacs-lisp")
+(add-to-list 'load-path "~/.emacs-lisp/mew")
+(add-to-list 'load-path "~/local/share/emacs/site-lisp")
 ;(setq load-path (cons "~/cabal-dev/share" load-path))
-(setq load-path (cons "/usr/share/emacs/site-lisp/global" load-path))
-(setq load-path (cons "/usr/local/scala/misc/scala-tool-support/emacs" load-path))
-(add-to-list 'load-path (expand-file-name "~/personal/ethan-wspace/lisp"))
-(add-to-list 'load-path (expand-file-name "~/local/git-emacs"))
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/global")
+(add-to-list 'load-path "~/personal/ethan-wspace/lisp")
+(add-to-list 'load-path "~/local/git-emacs")
 
 ;;
 ;; Package.el
@@ -26,8 +25,59 @@
 ;;
 ;; exec-path
 ;;================================================================
-;(add-to-list 'exec-path (expand-file-name "~/cabal-dev/bin"))
+;(add-to-list 'exec-path "~/cabal-dev/bin"))
 (add-to-list 'exec-path "/opt/local/bin")
+(add-to-list 'exec-path "/usr/local/bin")
+
+;;
+;; ibuffer
+;;================================================================
+(defvar ibuffer-inline-columns nil)
+(autoload 'ibuffer "ibuffer" "List buffers." t)
+(setq ibuffer-expert t)
+(setq ibuffer-show-empty-filter-groups nil)
+
+(setq ibuffer-directory-abbrev-alist
+      '(("/Users/kentaro/workspace/source" . "src/")
+        ("/Users/kentaro/workspace/easyviz"  . "ev/")
+        ))
+
+(setq ibuffer-saved-filter-groups
+      '(("work"
+         ("science" (filename . "source/science"))
+         ("birdcage" (filename . "source/birdcage"))
+         ("ci-config" (filename . "ci-job-configs"))
+         ("coursera" (filename . "coursera"))
+         ("github"   (filename . "github"))
+         ("breeze"   (filename . "breeze"))
+         ("nak"   (filename . "nak"))
+         ("sneakybird"   (filename . "sneakybird"))
+         ("personal"   (filename . "personal"))
+         ("easyviz"  (filename . "easyviz")))))
+
+(add-hook 'ibuffer-mode-hook
+          '(lambda ()
+             (ibuffer-switch-to-saved-filter-groups "work")))
+
+(define-ibuffer-column size-h
+  (:name "Size" :inline t)
+  (cond
+   ((> (buffer-size) 1000000) (format "%7.1fM" (/ (buffer-size) 1000000.0)))
+   ((> (buffer-size) 100000) (format "%7.0fk" (/ (buffer-size) 1000.0)))
+   ((> (buffer-size) 1000) (format "%7.1fk" (/ (buffer-size) 1000.0)))
+   (t (format "%8d" (buffer-size)))))
+
+(setq ibuffer-formats
+      '((mark modified read-only
+              " "
+              (name 32 32 :left :elide)
+              " "
+              (size-h 9 -1 :right)
+              " "
+;;              (mode 16 16 :left :elide)
+;;              " "
+              filename-and-process)
+        (mark " " (name 16 -1) " " filename)))
 
 ;;
 ;; font
@@ -101,7 +151,7 @@
       (define-key ctl-x-map "C" 'see-you-again)
       ))
 
-(require 'git-emacs)
+;(require 'git-emacs)
 
 (require 'tramp)
 (setq tramp-default-method "ssh")
@@ -177,8 +227,8 @@
       (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
       )
   )
-(add-to-list 'load-path (expand-file-name "~/personal/ghc-mod/cabal-dev/share"))
-(add-to-list 'exec-path (expand-file-name "~/personal/ghc-mod/cabal-dev/bin"))
+(add-to-list 'load-path "~/personal/ghc-mod/cabal-dev/share")
+(add-to-list 'exec-path "~/personal/ghc-mod/cabal-dev/bin")
 (autoload 'ghc-init "ghc" nil t)
 (add-hook 'haskell-mode-hook (lambda () (ghc-init) (flymake-mode)))
 (setq ghc-ghc-options '("-i~/cabal-dev"))
@@ -193,9 +243,10 @@
 ;;(if window-system (require 'caml-font))
 
 ;;
-;; Scala development environment
+;; Rust development environment
 ;;===================================
-(load "scala-mode" t)
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
 ;;
 ;; Python development environment
@@ -241,10 +292,14 @@
 ;;
 ;; Scala mode
 ;;================================================================
+(load "scala-mode" t)
 (unless (package-installed-p 'scala-mode2)
-  (package-refresh-contents) (package-install 'scala-mode2))
+  (package-refresh-contents)
+  (package-install 'scala-mode2))
 (setq auto-mode-alist
       (cons '("\\.scala$" . scala-mode) auto-mode-alist))
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 ;;
 ;; svn mode
@@ -313,8 +368,11 @@
 (global-set-key "\C-x\C-t" 'other-window)
 (global-set-key "\C-x\C-n" 'move-to-next-window)
 (global-set-key "\C-x\C-p" 'move-to-prev-window)
-(global-set-key "\C-x\C-b" 'buffer-menu)
 (global-set-key "\C-x\C-g" 'goto-line)
+(global-set-key "\C-x\C-b" 'ibuffer)
+(global-set-key "\M-g" 'grep-find)
+(global-unset-key "\C-x\C-z")
+
 ;;
 ;; misc.
 ;;================================================================
@@ -339,9 +397,8 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
-(setq tab-stop-list
-    '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
-(global-unset-key "\C-x\C-z")
+;(setq tab-stop-list
+;    '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
 
 
 ;;
