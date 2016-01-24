@@ -1,7 +1,7 @@
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=100000
-SAVEHIST=100000
+HISTSIZE=10000
+SAVEHIST=10000
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -24,20 +24,23 @@ setopt equals
 setopt noautoremoveslash
 setopt PROMPT_SUBST
 setopt nullglob
+setopt HIST_IGNORE_ALL_DUPS
 unsetopt auto_menu
 
 #
 # Aliases
 #
 alias la='/bin/ls -lAhG '
-alias g='git '
+alias e='emacsclient -n '
+alias g='kinit; git '
 alias glogg='git log --graph --date-order --pretty=format:"%h (%an) %s %cd" --branches'
 alias br='git branch'
 alias st='git status'
 alias attach='$HOME/bin/grabssh.sh; screen -d -R'
 alias fixssh='source $HOME/bin/fixssh'
 alias pycheck='pants py src/python/twitter/checkstyle:check --diff=$(git merge-base HEAD master)'
-alias -g jp='| json_pp | less '
+alias -g L='| less '
+alias -g JP='| json_pp | less '
 
 #
 # Hooks
@@ -66,3 +69,29 @@ PROMPT=$'%{${fg[green]}%}%m%{${fg[default]}%}=; cd %{${fg[blue]}%}%~%{${fg[defau
 if [ -f "$HOME/.zshrc.local" ]; then
   source "$HOME/.zshrc.local"
 fi
+
+#
+# percol
+#
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(history -n 1 | eval $tac | percol --query "$LBUFFER")
+#        BUFFER=$(history -n 1 | sort -u | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+fi
+
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/kentaro/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/kentaro/google-cloud-sdk/completion.zsh.inc'

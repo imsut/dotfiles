@@ -10,9 +10,15 @@
 (add-to-list 'load-path "~/.emacs-lisp/mew")
 (add-to-list 'load-path "~/local/share/emacs/site-lisp")
 ;(setq load-path (cons "~/cabal-dev/share" load-path))
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/global")
+(add-to-list 'load-path "/usr/local/share/gtags")
 (add-to-list 'load-path "~/personal/ethan-wspace/lisp")
 (add-to-list 'load-path "~/local/git-emacs")
+
+;;
+;; unset keys
+;;================================================================
+(global-unset-key "\C-x\C-z")
+(global-unset-key "\C-t")
 
 ;;
 ;; Package.el
@@ -38,22 +44,28 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (setq ibuffer-directory-abbrev-alist
-      '(("/Users/kentaro/workspace/source" . "src/")
+      '(("/Users/kentaro/workspace/source0" . "src0/")
+        ("/Users/kentaro/workspace/source1" . "src1/")
         ("/Users/kentaro/workspace/easyviz"  . "ev/")
         ))
 
 (setq ibuffer-saved-filter-groups
       '(("work"
-         ("science" (filename . "source/science"))
-         ("birdcage" (filename . "source/birdcage"))
+         ("science0"  (filename . "source0/science"))
+         ("finagle0"  (filename . "source0/finagle"))
+         ("util0"     (filename . "source0/util"))
+         ("science1"  (filename . "source1/science"))
+         ("finagle1"  (filename . "source1/finagle"))
+         ("util1"     (filename . "source1/util"))
          ("ci-config" (filename . "ci-job-configs"))
-         ("coursera" (filename . "coursera"))
-         ("github"   (filename . "github"))
-         ("breeze"   (filename . "breeze"))
-         ("nak"   (filename . "nak"))
-         ("sneakybird"   (filename . "sneakybird"))
-         ("personal"   (filename . "personal"))
-         ("easyviz"  (filename . "easyviz")))))
+         ("plclub"    (filename . "plclub"))
+         ("RbTriage"  (filename . "rbtriage"))
+         ("coursera"  (filename . "coursera"))
+         ("github"    (filename . "github"))
+         ("breeze"    (filename . "breeze"))
+         ("nak"       (filename . "nak"))
+         ("personal"  (filename . "personal"))
+         ("easyviz"   (filename . "easyviz")))))
 
 (add-hook 'ibuffer-mode-hook
           '(lambda ()
@@ -278,16 +290,49 @@
 (load "xcscope" t)
 
 ;;
+;; helm
+;;================================================================
+(require 'helm-config)
+;;(helm-autoresize-mode 1)
+
+
+;;
+;; projectile
+;;================================================================
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+(setq projectile-enable-caching t)
+
+;;
 ;; GNU Global
 ;;================================================================
 (autoload 'gtags-mode "gtags" "" t)
-(setq gtags-mode-hook
-      '(lambda ()
-         (local-set-key "\M-t" 'gtags-find-tag)
-         (local-set-key "\M-r" 'gtags-find-rtag)
-         (local-set-key "\M-s" 'gtags-find-symbol)
-         (local-set-key "\C-t" 'gtags-pop-stack)
-         ))
+;(setq gtags-mode-hook
+;      '(lambda ()
+;         (local-set-key "\C-\\." 'gtags-find-tag)
+;         (local-set-key "\M-t" 'gtags-find-tag)
+;         (local-set-key "\M-r" 'gtags-find-rtag)
+;         (local-set-key "\M-s" 'gtags-find-symbol)
+;         (local-set-key "\M-*" 'gtags-pop-stack)
+;         ))
+
+(require 'helm-config)
+(require 'helm-gtags)
+
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'scala-mode-hook 'helm-gtags-mode)
+
+;; key bindings
+(add-hook 'helm-gtags-mode-hook
+          '(lambda ()
+              (local-set-key (kbd "M-t") 'helm-gtags-find-tag)
+              (local-set-key (kbd "C-t") 'helm-gtags-find-tag)
+              (local-set-key (kbd "C-S-t") 'helm-gtags-find-tag)
+              (local-set-key (kbd "M-r") 'helm-gtags-find-rtag)
+              (local-set-key (kbd "M-s") 'helm-gtags-find-symbol)
+              (local-set-key (kbd "M-8") 'helm-gtags-pop-stack)
+              (local-set-key (kbd "C-.") 'helm-gtags-find-tag-from-here)))
 
 ;;
 ;; Scala mode
@@ -298,8 +343,8 @@
   (package-install 'scala-mode2))
 (setq auto-mode-alist
       (cons '("\\.scala$" . scala-mode) auto-mode-alist))
-(require 'ensime)
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;(require 'ensime)
+;(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 ;;
 ;; svn mode
@@ -349,6 +394,71 @@
 (setq cperl-comment-column 40)
 
 ;;
+;; Copy without Selection
+;; http://emacswiki.org/emacs/CopyWithoutSelection
+;;================================================================
+(defun get-point (symbol &optional arg)
+  "get the point"
+  (funcall symbol arg)
+  (point)
+)
+
+(defun copy-thing (begin-of-thing end-of-thing &optional arg)
+  "copy thing between beg & end into kill ring"
+  (save-excursion
+    (let ((beg (get-point begin-of-thing 1))
+          (end (get-point end-of-thing arg)))
+      (copy-region-as-kill beg end)))
+  )
+
+(defun paste-to-mark(&optional arg)
+  "Paste things to mark, or to the prompt in shell-mode"
+  (let ((pasteMe
+     	 (lambda()
+     	   (if (string= "shell-mode" major-mode)
+               (progn (comint-next-prompt 25535) (yank))
+             (progn (goto-char (mark)) (yank) )))))
+    (if arg
+        (if (= arg 1)
+     		nil
+          (funcall pasteMe))
+      (funcall pasteMe))
+    ))
+
+(defun copy-word (&optional arg)
+  "Copy words at point into kill-ring"
+  (interactive "P")
+  (copy-thing 'backward-word 'forward-word arg)
+  ;;(paste-to-mark arg)
+  )
+
+(global-set-key (kbd "C-c w")
+                (quote copy-word))
+
+(defun beginning-of-string(&optional arg)
+  "  "
+  (re-search-backward "[ \t]" (line-beginning-position) 3 1)
+  (if (looking-at "[\t ]")  (goto-char (+ (point) 1)) )
+  )
+(defun end-of-string(&optional arg)
+  " "
+  (re-search-forward "[ \t]" (line-end-position) 3 arg)
+  (if (looking-back "[\t ]") (goto-char (- (point) 1)) )
+  )
+
+(defun thing-copy-string-to-mark(&optional arg)
+  " Try to copy a string and paste it to the mark
+     When used in shell-mode, it will paste string on shell prompt by default "
+  (interactive "P")
+  (copy-thing 'beginning-of-string 'end-of-string arg)
+  (paste-to-mark arg)
+  )
+
+(global-set-key (kbd "C-c s")
+                (quote thing-copy-string-to-mark))
+
+
+;;
 ;; Key bindinsg
 ;;================================================================
 (defun move-to-next-window()
@@ -371,7 +481,6 @@
 (global-set-key "\C-x\C-g" 'goto-line)
 (global-set-key "\C-x\C-b" 'ibuffer)
 (global-set-key "\M-g" 'grep-find)
-(global-unset-key "\C-x\C-z")
 
 ;;
 ;; misc.
