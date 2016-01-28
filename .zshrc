@@ -51,7 +51,7 @@ typeset -ga chpwd_functions
 
 case "$TERM" in
 screen)
-  preexec_functions+='preexec_update_screen_status'
+  #preexec_functions+='preexec_update_screen_status'
   ;;
 esac
 
@@ -88,10 +88,3 @@ if exists percol; then
     zle -N percol_select_history
     bindkey '^R' percol_select_history
 fi
-
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/kentaro/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/kentaro/google-cloud-sdk/completion.zsh.inc'
