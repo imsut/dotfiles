@@ -25,7 +25,7 @@
 ;;================================================================
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
 ;;
@@ -51,21 +51,16 @@
 
 (setq ibuffer-saved-filter-groups
       '(("work"
-         ("science0"  (filename . "source0/science"))
-         ("finagle0"  (filename . "source0/finagle"))
-         ("util0"     (filename . "source0/util"))
-         ("science1"  (filename . "source1/science"))
-         ("finagle1"  (filename . "source1/finagle"))
-         ("util1"     (filename . "source1/util"))
-         ("ci-config" (filename . "ci-job-configs"))
-         ("plclub"    (filename . "plclub"))
-         ("RbTriage"  (filename . "rbtriage"))
-         ("coursera"  (filename . "coursera"))
-         ("github"    (filename . "github"))
-         ("breeze"    (filename . "breeze"))
-         ("nak"       (filename . "nak"))
-         ("personal"  (filename . "personal"))
-         ("easyviz"   (filename . "easyviz")))))
+         ("source"    (filename . "/source"))
+         ("ci-config" (filename . "/ci-job-configs"))
+         ("plclub"    (filename . "/plclub"))
+         ("RbTriage"  (filename . "/rbtriage"))
+         ("coursera"  (filename . "/coursera"))
+         ("github"    (filename . "/github"))
+         ("breeze"    (filename . "/breeze"))
+         ("nak"       (filename . "/nak"))
+         ("personal"  (filename . "/personal"))
+         ("easyviz"   (filename . "/easyviz")))))
 
 (add-hook 'ibuffer-mode-hook
           '(lambda ()
