@@ -1,0 +1,28 @@
+[user]
+	name = Ken Kawamoto
+	email = kentaro@twitter.com
+
+[alias]
+	st = status
+	co = checkout
+	ci = commit
+	br = branch
+	delete = !sh -c "cd .; to_die=`git name-rev --name-only head`; if [[ 'xx' != 'x${to_die}x' ]]; then git checkout master; git br -D $to_die; fi"
+	update = !sh -c "cd .; self=`git name-rev --name-only head`; parent=`git config --get branch.$self.parent || echo origin/master`; echo merging $parent into $self; git merge $parent --no-edit"
+	mylog = "log --author=kentaro@twitter.com"
+
+[push]
+	default = current
+
+[core]
+	excludesfile = ~/.gitignore
+#	pager = cat
+
+[color]
+	ui = true
+
+#[diff]
+#	renames = copies
+[http]
+	postBuffer = 209715200
+#        sslCAinfo = /System/Library/OpenSSL/cert.pem

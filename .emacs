@@ -13,6 +13,8 @@
 (add-to-list 'load-path "/usr/local/share/gtags")
 (add-to-list 'load-path "~/personal/ethan-wspace/lisp")
 (add-to-list 'load-path "~/local/git-emacs")
+(add-to-list 'load-path "/usr/local/bin")
+
 
 ;;
 ;; unset keys
@@ -503,6 +505,7 @@
 (setq indent-line-function 'insert-tab)
 ;(setq tab-stop-list
 ;    '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
+(global-linum-mode t)
 
 
 ;;
