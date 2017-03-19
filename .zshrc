@@ -34,13 +34,19 @@ alias la='/bin/ls -lAhG '
 alias e='emacsclient -n '
 alias g='kinit; git '
 alias glogg='git log --graph --date-order --pretty=format:"%h (%an) %s %cd" --branches'
-alias br='git branch'
+alias br='arc feature --view-all '
 alias st='git status'
 alias attach='$HOME/bin/grabssh.sh; screen -d -R'
 alias fixssh='source $HOME/bin/fixssh'
 alias pycheck='pants py src/python/twitter/checkstyle:check --diff=$(git merge-base HEAD master)'
+alias rb='arc diff --browse '
+alias sb='arc sandbox '
+alias conftest='in_science ./pants tests/python/twitter/ads/common/parser:parsing-tests && pants goal test tests/java/com/twitter/adserver/integration --test-junit-test=com.twitter.adserver.integration.ExperimentConfigurationTestIT -x --log-exit'
+
+
 alias -g L='| less '
 alias -g JP='| json_pp | less '
+alias -g PDEBUG='--no-test-junit-timeouts --jvm-test-junit-debug '
 
 #
 # Hooks

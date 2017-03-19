@@ -11,4 +11,7 @@ case "$1" in
     br)
     __EXECUTED_GIT_COMMAND=1
     ;;
+    arc*)
+    __EXECUTED_GIT_COMMAND=1
+    ;;
 esac

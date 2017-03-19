@@ -30,12 +30,35 @@
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(defvar myPackages
+  '(better-defaults
+    material-theme
+    elpy))
+
+(mapc #'(lambda (package)
+    (unless (package-installed-p package)
+      (package-install package)))
+      myPackages)
+
+;;
+;; Basic customization https://realpython.com/blog/python/emacs-the-best-python-editor/
+;;================================================================
+(setq inhibit-startup-message t) ;; hide the startup message
+(load-theme 'material t) ;; load material theme
+(global-linum-mode t) ;; enable line numbers globally
+
+
 ;;
 ;; exec-path
 ;;================================================================
 ;(add-to-list 'exec-path "~/cabal-dev/bin"))
-(add-to-list 'exec-path "/opt/local/bin")
-(add-to-list 'exec-path "/usr/local/bin")
+;(add-to-list 'exec-path "/opt/local/bin")
+;(add-to-list 'exec-path "/usr/local/bin")
+(set-exec-path-from-shell-initialize)
+
 
 ;;
 ;; ibuffer
@@ -46,8 +69,7 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (setq ibuffer-directory-abbrev-alist
-      '(("/Users/kentaro/workspace/source0" . "src0/")
-        ("/Users/kentaro/workspace/source1" . "src1/")
+      '(("/Users/kentaro/workspace/source" . "src/")
         ("/Users/kentaro/workspace/easyviz"  . "ev/")
         ))
 
@@ -59,10 +81,11 @@
          ("RbTriage"  (filename . "/rbtriage"))
          ("coursera"  (filename . "/coursera"))
          ("github"    (filename . "/github"))
-         ("breeze"    (filename . "/breeze"))
-         ("nak"       (filename . "/nak"))
+         ("easyviz"   (filename . "/easyviz"))
+         ("h2o2"   (filename . "/h2o2"))
+         ("h2o"   (filename . "/h2o"))
          ("personal"  (filename . "/personal"))
-         ("easyviz"   (filename . "/easyviz")))))
+         )))
 
 (add-hook 'ibuffer-mode-hook
           '(lambda ()
@@ -134,22 +157,7 @@
       (set-clipboard-coding-system 'japanese-shift-jis-dos)
       (set-keyboard-coding-system 'japanese-shift-jis-dos)
       ))
-;;
-;; Anthy
-;;================================================================
-;(set-input-method "japanese-anthy")
-;(setq anthy-wide-space " ")
-;;
-;; MS-IME
-;;================================================================
-(if (eq window-system 'w32)
-    (progn
-      (mw32-ime-initialize)
-      (setq default-input-method "MW32-IME")
-      (inactivate-input-method)
-      (setq-default mw32-ime-mode-line-state-indicator "[--]")
-      (setq mw32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))
-      ))
+
 ;;
 ;; windows (window system)
 ;;================================================================
@@ -208,8 +216,6 @@
 	     (setq indent-tabs-mode nil)
              (c-set-offset 'innamespace 0)
 
-	     (define-key c-mode-base-map "\M-j" 'goto-line)
-	     (define-key c-mode-base-map "\M-j" 'goto-line)
 	     (define-key c-mode-base-map [f1] 'manual-entry)
 	     (define-key c-mode-base-map [f4] 'next-error)
 	     (define-key c-mode-base-map "\M-p" 'previous-error)
@@ -223,8 +229,8 @@
 		  ;;(require 'compile)
 		  ;;(save-some-buffers (not compilation-ask-about-save) nil)
 		  (compile-internal "make clean all" "No more errors")))
-	     (gtags-mode 1)
-	     (gtags-make-complete-list)
+	     (ggtags-mode 1)
+	     ;;(gtags-make-complete-list)
 	     ))
 
 ;;
@@ -257,17 +263,25 @@
 (autoload 'rust-mode "rust-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
+(add-hook 'rust-mode-hook
+          (lambda ()
+            (ggtags-mode 1)
+            ))
+
 ;;
 ;; Python development environment
 ;;===================================
+(elpy-enable)
+;(elpy-use-ipython)
+
 (add-hook 'python-mode-hook
           (lambda ()
-	    (setq indent-tabs-mode nil)
-	    (setq indent-level 2)
-	    (setq python-indent 2)
-	    (setq tab-width 2)
-	    (setq py-indent-offset 2)
-	    ))
+            (setq indent-tabs-mode nil)
+            (setq indent-level 2)
+            (setq python-indent 2)
+            (setq tab-width 2)
+            (setq py-indent-offset 2)
+            ))
 
 ;;
 ;; ethan-wspace
@@ -296,24 +310,14 @@
 ;;
 ;; projectile
 ;;================================================================
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-(setq projectile-enable-caching t)
+;(projectile-global-mode)
+;(setq projectile-completion-system 'helm)
+;(helm-projectile-on)
+;(setq projectile-enable-caching t)
 
 ;;
 ;; GNU Global
 ;;================================================================
-(autoload 'gtags-mode "gtags" "" t)
-;(setq gtags-mode-hook
-;      '(lambda ()
-;         (local-set-key "\C-\\." 'gtags-find-tag)
-;         (local-set-key "\M-t" 'gtags-find-tag)
-;         (local-set-key "\M-r" 'gtags-find-rtag)
-;         (local-set-key "\M-s" 'gtags-find-symbol)
-;         (local-set-key "\M-*" 'gtags-pop-stack)
-;         ))
-
 (require 'helm-config)
 (require 'helm-gtags)
 
@@ -330,6 +334,14 @@
               (local-set-key (kbd "M-s") 'helm-gtags-find-symbol)
               (local-set-key (kbd "M-8") 'helm-gtags-pop-stack)
               (local-set-key (kbd "C-.") 'helm-gtags-find-tag-from-here)))
+
+;; key bindings
+(add-hook 'ggtags-mode-hook
+          '(lambda ()
+              (local-set-key (kbd "M-t") 'ggtags-find-tag-dwim)
+              (local-set-key (kbd "M-8") 'ggtags-prev-mark)
+              (local-set-key (kbd "C-.") 'ggtags-find-tag-dwim)
+              ))
 
 ;;
 ;; Scala mode
@@ -367,6 +379,7 @@
 (add-to-list 'auto-mode-alist (cons  "\\.\\(js\\|as\\|json\\|jsn\\)\\'" 'javascript-mode))
 (autoload 'javascript-mode "javascript" nil t)
 (setq js-indent-level 2)
+
 ;;
 ;; cperl-mode
 ;;================================================================
@@ -477,7 +490,7 @@
 (global-set-key "\C-x\C-p" 'move-to-prev-window)
 (global-set-key "\C-x\C-g" 'goto-line)
 (global-set-key "\C-x\C-b" 'ibuffer)
-(global-set-key "\M-g" 'grep-find)
+(global-set-key "\M-g" 'rgrep)
 
 ;;
 ;; misc.
@@ -503,8 +516,6 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
-;(setq tab-stop-list
-;    '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
 (global-linum-mode t)
 
 
@@ -535,6 +546,7 @@
 (defun down-slightly () (interactive) (scroll-down 5))
 (global-set-key [mouse-4] 'down-slightly)
 (global-set-key [mouse-5] 'up-slightly)
+
 ;;
 ;; Coloring
 ;;================================================================
@@ -558,3 +570,17 @@
                               (if font-lock-mode
                                   nil
                                   (font-lock-mode t))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (exec-path-from-shell ggtags yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode flx-ido ensime elpy better-defaults auto-complete ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
