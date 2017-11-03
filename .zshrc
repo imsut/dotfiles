@@ -4,18 +4,20 @@ HISTSIZE=10000
 SAVEHIST=10000
 bindkey -e
 # End of lines configured by zsh-newuser-install
+
+autoload -U colors
+colors
+
+fpath+=~/.zfunc
+fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(~/.zsh/functions $fpath)
+autoload -U ~/.zsh/functions/*(:t)
+
 # The following lines were added by compinstall
 
 autoload -Uz compinit
 compinit -u
 # End of lines added by compinstall
-
-autoload -U colors
-colors
-
-fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(~/.zsh/functions $fpath)
-autoload -U ~/.zsh/functions/*(:t)
 
 setopt share_history
 setopt auto_cd
@@ -41,8 +43,7 @@ alias fixssh='source $HOME/bin/fixssh'
 alias pycheck='pants py src/python/twitter/checkstyle:check --diff=$(git merge-base HEAD master)'
 alias rb='arc diff --browse '
 alias sb='arc sandbox '
-alias conftest='in_science ./pants tests/python/twitter/ads/common/parser:parsing-tests && pants goal test tests/java/com/twitter/adserver/integration --test-junit-test=com.twitter.adserver.integration.ExperimentConfigurationTestIT -x --log-exit'
-
+alias agl='ag --pager=less '
 
 alias -g L='| less '
 alias -g JP='| json_pp | less '

@@ -27,7 +27,9 @@
 ;;================================================================
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/")
+             '("gnu" . "http://elpa.gnu.org/packages/")
+             )
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -57,7 +59,8 @@
 ;(add-to-list 'exec-path "~/cabal-dev/bin"))
 ;(add-to-list 'exec-path "/opt/local/bin")
 ;(add-to-list 'exec-path "/usr/local/bin")
-(set-exec-path-from-shell-initialize)
+(require 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
 
 
 ;;
@@ -277,10 +280,10 @@
 (add-hook 'python-mode-hook
           (lambda ()
             (setq indent-tabs-mode nil)
-            (setq indent-level 2)
-            (setq python-indent 2)
-            (setq tab-width 2)
-            (setq py-indent-offset 2)
+            (setq indent-level 4)
+            (setq python-indent 4)
+            (setq tab-width 4)
+            (setq py-indent-offset 4)
             ))
 
 ;;
@@ -577,7 +580,23 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (exec-path-from-shell ggtags yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode flx-ido ensime elpy better-defaults auto-complete ag))))
+    (haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
+ '(safe-local-variable-values
+   (quote
+    ((eval if
+           (boundp
+            (quote c-offsets-alist))
+           (add-to-list
+            (quote c-offsets-alist)
+            (quote
+             (innamespace . -))))
+     (eval add-to-list
+           (quote auto-mode-alist)
+           (quote
+            ("\\.h\\'" . c++-mode)))
+     (whitespace-style face tabs tab-mark trailing lines-tail empty)
+     (flycheck-clang-include-path "." "src" "lib/asio/include" "lib/autocheck/include" "lib/cereal/include" "lib/util" "lib/soci/src/core" "lib/soci/src/backends/sqlite3" "lib/xdrpp" "lib/sqlite" "lib/libsodium/src/libsodium" "lib/libmedida/src")
+     (flycheck-clang-language-standard . "c++11")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
