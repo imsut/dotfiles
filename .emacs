@@ -72,19 +72,17 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (setq ibuffer-directory-abbrev-alist
-      '(("/Users/kentaro/workspace/source" . "src/")
-        ("/Users/kentaro/workspace/easyviz"  . "ev/")
+      '(("/Users/ken.kawamoto/workspace/datainfra" . "datainfra/")
+        ("/Users/ken.kawamoto/workspace/zeehawk"  . "zeehawk/")
         ))
 
 (setq ibuffer-saved-filter-groups
       '(("work"
-         ("source"    (filename . "/source"))
-         ("ci-config" (filename . "/ci-job-configs"))
-         ("plclub"    (filename . "/plclub"))
-         ("RbTriage"  (filename . "/rbtriage"))
-         ("coursera"  (filename . "/coursera"))
+         ("datainfra"    (filename . "/datainfra"))
+         ("zeehawk" (filename . "/zeehawk"))
+         ("airflow" (filename . "/airflow"))
+         ("bazel" (filename . "/bazel"))
          ("github"    (filename . "/github"))
-         ("easyviz"   (filename . "/easyviz"))
          ("h2o2"   (filename . "/h2o2"))
          ("h2o"   (filename . "/h2o"))
          ("personal"  (filename . "/personal"))
@@ -306,7 +304,7 @@
 ;;
 ;; helm
 ;;================================================================
-(require 'helm-config)
+;;(require 'helm-config)
 ;;(helm-autoresize-mode 1)
 
 
@@ -350,9 +348,9 @@
 ;; Scala mode
 ;;================================================================
 (load "scala-mode" t)
-(unless (package-installed-p 'scala-mode2)
-  (package-refresh-contents)
-  (package-install 'scala-mode2))
+;;(unless (package-installed-p 'scala-mode2)
+;;  (package-refresh-contents)
+;;  (package-install 'scala-mode2))
 (setq auto-mode-alist
       (cons '("\\.scala$" . scala-mode) auto-mode-alist))
 ;(require 'ensime)
@@ -490,7 +488,9 @@
 (global-set-key "\C-o" 'toggle-input-method)
 (global-set-key "\C-x\C-t" 'other-window)
 (global-set-key "\C-x\C-n" 'move-to-next-window)
+(global-set-key "\C-t\C-n" 'move-to-next-window)
 (global-set-key "\C-x\C-p" 'move-to-prev-window)
+(global-set-key "\C-t\C-p" 'move-to-prev-window)
 (global-set-key "\C-x\C-g" 'goto-line)
 (global-set-key "\C-x\C-b" 'ibuffer)
 (global-set-key "\M-g" 'rgrep)
@@ -519,6 +519,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
+(setq vc-follow-symlinks nil)
 (global-linum-mode t)
 
 
@@ -567,6 +568,18 @@
 ;     ("\t" 0 my-face-b-2 append)
      ("[ ]+$" 0 my-face-u-1 append)
      )))
+
+(set-face-attribute 'mode-line
+                    nil
+                    :foreground "gray80"
+                    :background "gray25"
+                    :box '(:line-width 1 :style released-button))
+(set-face-attribute 'mode-line-inactive
+                    nil
+                    :foreground "gray30"
+                    :background "gray10"
+                    :box '(:line-width 1 :style released-button))
+
 (ad-enable-advice 'font-lock-mode 'before 'my-font-lock-mode)
 (ad-activate 'font-lock-mode)
 (add-hook 'find-file-hooks '(lambda ()
@@ -578,9 +591,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(dired-listing-switches "-ao")
  '(package-selected-packages
    (quote
-    (haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
+    (zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
  '(safe-local-variable-values
    (quote
     ((eval if
