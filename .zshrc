@@ -34,7 +34,6 @@ unsetopt auto_menu
 #
 alias la='/bin/ls -lAhG '
 alias e='emacsclient -n '
-alias g='kinit; git '
 alias glogg='git log --graph --date-order --pretty=format:"%h (%an) %s %cd" --branches'
 alias br='git branch '
 alias st='git status'
@@ -43,10 +42,12 @@ alias fixssh='source $HOME/bin/fixssh'
 alias pycheck='pants py src/python/twitter/checkstyle:check --diff=$(git merge-base HEAD master)'
 alias rb='arc diff --browse '
 alias sb='arc sandbox '
+alias ag='ag --pager=less '
 alias agl='ag --pager=less '
 alias kc='kubectl '
 alias yg='shyaml get-value '
 alias bd='base64 -D '
+alias readlink='greadlink'
 
 alias -g L='| less '
 alias -g JP='| json_pp | less '
@@ -90,6 +91,7 @@ if exists percol; then
         local tac
         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
         BUFFER=$(history -n 1 | eval $tac | percol)
+#        BUFFER=$(fc -lrn 1 | sed -e "s/\\\\\\\\n//g" | percol)
 #        BUFFER=$(history -n 1 | sort -u | percol --query "$LBUFFER")
         CURSOR=$#BUFFER         # move cursor
         zle -R -c               # refresh

@@ -7,11 +7,9 @@
 ;; load-path
 ;;================================================================
 (add-to-list 'load-path "~/.emacs-lisp")
-(add-to-list 'load-path "~/.emacs-lisp/mew")
 (add-to-list 'load-path "~/local/share/emacs/site-lisp")
 ;(setq load-path (cons "~/cabal-dev/share" load-path))
 (add-to-list 'load-path "/usr/local/share/gtags")
-(add-to-list 'load-path "~/personal/ethan-wspace/lisp")
 (add-to-list 'load-path "~/local/git-emacs")
 (add-to-list 'load-path "/usr/local/bin")
 
@@ -72,13 +70,17 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 (setq ibuffer-directory-abbrev-alist
-      '(("/Users/ken.kawamoto/workspace/datainfra" . "datainfra/")
-        ("/Users/ken.kawamoto/workspace/zeehawk"  . "zeehawk/")
+      '(
+        ("/Users/ken.kawamoto/workspace/datainfra.0" . "[datainfra.0]")
+        ("/Users/ken.kawamoto/workspace/datainfra.1" . "[datainfra.1]")
+        ("/Users/ken.kawamoto/workspace/zeehawk"  . "[zeehawk]")
         ))
 
 (setq ibuffer-saved-filter-groups
       '(("work"
-         ("datainfra"    (filename . "/datainfra"))
+         ("datainfra.0"    (filename . "/datainfra.0"))
+         ("datainfra.1"    (filename . "/datainfra.1"))
+         ("datainfra-core"    (filename . "/datainfra-core"))
          ("zeehawk" (filename . "/zeehawk"))
          ("airflow" (filename . "/airflow"))
          ("bazel" (filename . "/bazel"))
@@ -551,6 +553,15 @@
 (global-set-key [mouse-4] 'down-slightly)
 (global-set-key [mouse-5] 'up-slightly)
 
+
+;;
+;; flymd
+;;================================================================
+(defun my-flymd-browser-function (url)
+   (let ((browse-url-browser-function 'browse-url-firefox))
+     (browse-url url)))
+ (setq flymd-browser-open-function 'my-flymd-browser-function)
+
 ;;
 ;; Coloring
 ;;================================================================
@@ -594,7 +605,7 @@
  '(dired-listing-switches "-ao")
  '(package-selected-packages
    (quote
-    (zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
+    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
  '(safe-local-variable-values
    (quote
     ((eval if
