@@ -57,9 +57,11 @@
 ;(add-to-list 'exec-path "~/cabal-dev/bin"))
 ;(add-to-list 'exec-path "/opt/local/bin")
 ;(add-to-list 'exec-path "/usr/local/bin")
-(require 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
-
+(if (eq system-type 'darwin)
+    (progn
+        (require 'exec-path-from-shell)
+        (exec-path-from-shell-initialize)
+    ))
 
 ;;
 ;; ibuffer
