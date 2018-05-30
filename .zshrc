@@ -48,6 +48,7 @@ alias kc='kubectl '
 alias yg='shyaml get-value '
 alias bd='base64 -D '
 alias readlink='greadlink'
+alias psgrep='ps aux | grep '
 
 alias -g L='| less '
 alias -g JP='| json_pp | less '

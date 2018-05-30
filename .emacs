@@ -322,21 +322,21 @@
 ;; GNU Global
 ;;================================================================
 (require 'helm-config)
-(require 'helm-gtags)
+;(require 'helm-gtags)
 
-(add-hook 'c-mode-hook 'helm-gtags-mode)
-(add-hook 'scala-mode-hook 'helm-gtags-mode)
+;(add-hook 'c-mode-hook 'helm-gtags-mode)
+;(add-hook 'scala-mode-hook 'helm-gtags-mode)
 
 ;; key bindings
-(add-hook 'helm-gtags-mode-hook
-          '(lambda ()
-              (local-set-key (kbd "M-t") 'helm-gtags-find-tag)
-              (local-set-key (kbd "C-t") 'helm-gtags-find-tag)
-              (local-set-key (kbd "C-S-t") 'helm-gtags-find-tag)
-              (local-set-key (kbd "M-r") 'helm-gtags-find-rtag)
-              (local-set-key (kbd "M-s") 'helm-gtags-find-symbol)
-              (local-set-key (kbd "M-8") 'helm-gtags-pop-stack)
-              (local-set-key (kbd "C-.") 'helm-gtags-find-tag-from-here)))
+;; (add-hook 'helm-gtags-mode-hook
+;;           '(lambda ()
+;;               (local-set-key (kbd "M-t") 'helm-gtags-find-tag)
+;;               (local-set-key (kbd "C-t") 'helm-gtags-find-tag)
+;;               (local-set-key (kbd "C-S-t") 'helm-gtags-find-tag)
+;;               (local-set-key (kbd "M-r") 'helm-gtags-find-rtag)
+;;               (local-set-key (kbd "M-s") 'helm-gtags-find-symbol)
+;;               (local-set-key (kbd "M-8") 'helm-gtags-pop-stack)
+;;               (local-set-key (kbd "C-.") 'helm-gtags-find-tag-from-here)))
 
 ;; key bindings
 (add-hook 'ggtags-mode-hook
@@ -605,7 +605,7 @@
  '(dired-listing-switches "-ao")
  '(package-selected-packages
    (quote
-    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-gtags helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
+    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
  '(safe-local-variable-values
    (quote
     ((eval if
