@@ -7,9 +7,9 @@
 	co = checkout
 	ci = commit
 	br = branch
-	delete = !sh -c "cd .; to_die=`git name-rev --name-only head`; if [[ 'xx' != 'x${to_die}x' ]]; then git checkout master; git br -D $to_die; fi"
-	update = !sh -c "cd .; self=`git name-rev --name-only head`; parent=`git config --get branch.$self.parent || echo origin/master`; echo merging $parent into $self; git merge $parent --no-edit"
-	mylog = "log --author=kentaro@twitter.com"
+	delete = !sh -c "cd .; to_die=`git name-rev --name-only HEAD`; if [ 'xx' != 'x${to_die}x' ]; then git checkout master; git br -D $to_die; fi"
+	update = !sh -c "cd .; self=`git name-rev --name-only HEAD`; parent=`git config --get branch.$self.parent || echo origin/master`; echo merging $parent into $self; git merge $parent --no-edit"
+	mylog = "log --author=ken.kawamoto@kittyhawk.aero"
 	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
 	d = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
 	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "

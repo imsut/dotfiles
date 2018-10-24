@@ -39,20 +39,15 @@ alias br='git branch '
 alias st='git status'
 alias attach='$HOME/bin/grabssh.sh; screen -d -R'
 alias fixssh='source $HOME/bin/fixssh'
-alias pycheck='pants py src/python/twitter/checkstyle:check --diff=$(git merge-base HEAD master)'
-alias rb='arc diff --browse '
-alias sb='arc sandbox '
 alias ag='ag --pager=less '
 alias agl='ag --pager=less '
 alias kc='kubectl '
 alias yg='shyaml get-value '
 alias bd='base64 -D '
-alias readlink='greadlink'
 alias psgrep='ps aux | grep '
 
 alias -g L='| less '
 alias -g JP='| json_pp | less '
-alias -g PDEBUG='--no-test-junit-timeouts --jvm-test-junit-debug '
 
 #
 # Hooks
@@ -103,4 +98,4 @@ if exists percol; then
 fi
 PHP_AUTOCONF="/usr/local/bin/autoconf"
 
-test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+source /opt/ros/kinetic/setup.zsh

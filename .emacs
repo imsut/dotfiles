@@ -36,7 +36,8 @@
 (defvar myPackages
   '(better-defaults
     material-theme
-    elpy))
+))
+;    elpy))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -276,7 +277,7 @@
 ;;
 ;; Python development environment
 ;;===================================
-(elpy-enable)
+;(elpy-enable)
 ;(elpy-use-ipython)
 
 (add-hook 'python-mode-hook
@@ -323,7 +324,7 @@
 ;;
 ;; GNU Global
 ;;================================================================
-(require 'helm-config)
+;(require 'helm-config)
 ;(require 'helm-gtags)
 
 ;(add-hook 'c-mode-hook 'helm-gtags-mode)
@@ -607,7 +608,8 @@
  '(dired-listing-switches "-ao")
  '(package-selected-packages
    (quote
-    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
+;    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
+    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime better-defaults auto-complete ag)))
  '(safe-local-variable-values
    (quote
     ((eval if
