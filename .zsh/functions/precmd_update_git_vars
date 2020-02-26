@@ -1,3 +1,10 @@
+if git rev-parse --git-dir > /dev/null 2>&1; then
+    local br="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+    tmux rename-window $br
+else
+    tmux rename-window "not git"
+fi
+
 if [ -n "$__EXECUTED_GIT_COMMAND" ]; then
     update_current_git_vars
     unset __EXECUTED_GIT_COMMAND

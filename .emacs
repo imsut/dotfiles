@@ -24,10 +24,10 @@
 ;; Package.el
 ;;================================================================
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/")
-             '("gnu" . "http://elpa.gnu.org/packages/")
-             )
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -316,6 +316,10 @@
 ;;
 ;; projectile
 ;;================================================================
+(require 'projectile)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+(projectile-mode +1)
 ;(projectile-global-mode)
 ;(setq projectile-completion-system 'helm)
 ;(helm-projectile-on)
@@ -346,6 +350,7 @@
           '(lambda ()
               (local-set-key (kbd "M-t") 'ggtags-find-tag-dwim)
               (local-set-key (kbd "M-8") 'ggtags-prev-mark)
+              (local-set-key (kbd "C-8") 'ggtags-prev-mark)
               (local-set-key (kbd "C-.") 'ggtags-find-tag-dwim)
               ))
 
@@ -513,10 +518,10 @@
 (global-font-lock-mode t)
 (setq line-number-mode t)
 (setq column-number-mode t)
-(auto-compression-mode t)     ;; 日本語infoの文字化け防止
-(setq truncate-lines nil)     ;; 行折り返し
-(transient-mark-mode t)       ;; 選択範囲をハイライト
-(setq truncate-partial-width-windows nil) ;; 行折り返し (C-x 3)
+(auto-compression-mode t)
+(setq truncate-lines nil)
+(transient-mark-mode t)
+(setq truncate-partial-width-windows nil)
 (windmove-default-keybindings)
 (setq windmove-wrap-around t)
 (setq ring-bell-function '(lambda ()))
@@ -525,6 +530,7 @@
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 (setq vc-follow-symlinks nil)
+(setq js2-strict-missing-semi-warning nil)
 (global-linum-mode t)
 
 
@@ -605,11 +611,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(dired-listing-switches "-ao")
  '(package-selected-packages
    (quote
-;    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime elpy better-defaults auto-complete ag)))
-    (flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime better-defaults auto-complete ag)))
+    (projectile org-plus-contrib solarized-theme json-mode rjsx-mode dockerfile-mode elixir-mode markdown-mode flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime better-defaults auto-complete ag)))
  '(safe-local-variable-values
    (quote
     ((eval if

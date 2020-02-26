@@ -35,7 +35,7 @@ unsetopt auto_menu
 alias la='/bin/ls -lAhG '
 alias e='emacsclient -n '
 alias glogg='git log --graph --date-order --pretty=format:"%h (%an) %s %cd" --branches'
-alias br='git branch '
+alias br='git --no-pager branch '
 alias st='git status'
 alias attach='$HOME/bin/grabssh.sh; screen -d -R'
 alias fixssh='source $HOME/bin/fixssh'
@@ -56,21 +56,22 @@ typeset -ga preexec_functions
 typeset -ga precmd_functions
 typeset -ga chpwd_functions
 
-case "$TERM" in
-screen)
-  #preexec_functions+='preexec_update_screen_status'
-  ;;
-esac
+#case "$TERM" in
+#screen)
+#  #preexec_functions+='preexec_update_screen_status'
+#  ;;
+#esac
 
 preexec_functions+='preexec_update_git_vars'
 precmd_functions+='precmd_update_git_vars'
-chpwd_functions+='chpwd_update_git_vars'
+chpwd_functions+='update_current_git_vars'
 chpwd_functions+='chpwd_show_files'
 
 #
 # PROMPT / RPROMPT
 #
-PROMPT=$'%{${fg[green]}%}%m%{${fg[default]}%}=; cd %{${fg[blue]}%}%~%{${fg[default]}%};$(prompt_git_info) '
+#PROMPT=$'%{${fg[green]}%}%m%{${fg[default]}%}=; cd %{${fg[blue]}%}%~%{${fg[default]}%};$(prompt_git_info) '
+PROMPT=$'%{${fg[blue]}%}%~%{${fg[default]}%}$ '
 #RPROMPT=$'$(prompt_git_info)%{${fg[default]}%} [%*]'
 
 if [ -f "$HOME/.zshrc.local" ]; then
@@ -98,4 +99,6 @@ if exists percol; then
 fi
 PHP_AUTOCONF="/usr/local/bin/autoconf"
 
-source /opt/ros/kinetic/setup.zsh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
