@@ -617,7 +617,7 @@
  '(dired-listing-switches "-ao")
  '(package-selected-packages
    (quote
-    (projectile org-plus-contrib solarized-theme json-mode rjsx-mode dockerfile-mode elixir-mode markdown-mode flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime better-defaults auto-complete ag)))
+    (haskell-mode cmake-mode projectile org-plus-contrib solarized-theme json-mode rjsx-mode dockerfile-mode elixir-mode markdown-mode flymd zenburn-theme haskell-emacs yaml-mode scala-mode2 rust-mode neotree material-theme lua-mode helm-projectile helm-ghc go-mode ggtags flx-ido exec-path-from-shell ensime better-defaults auto-complete ag)))
  '(safe-local-variable-values
    (quote
     ((eval if
