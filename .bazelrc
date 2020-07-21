@@ -1,0 +1,5 @@
+build --show_timestamps
+build --color=yes
+build --compilation_mode dbg
+#build --remote_http_cache=https://storage.googleapis.com/air-bazel-remote-cache --google_credentials=/home/kkawamoto/credentials/air-bazel-remote-cache.json
+test --test_output=errors
